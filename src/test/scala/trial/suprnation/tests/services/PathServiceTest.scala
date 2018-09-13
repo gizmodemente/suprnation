@@ -19,7 +19,7 @@ class PathServiceTest extends FlatSpec {
   "A path service" must "supports enough load" in {
 
     val r = scala.util.Random
-    val triangleList: List[List[Int]] = (for (x <- 1 to 30) yield List.fill(x)(r.nextInt(1000))).toList
+    val triangleList: List[List[Int]] = (for (x <- 1 to 1000) yield List.fill(x)(r.nextInt(1000))).toList
 
     val path: Path = PathServiceInt.calculatePath(triangleList)
 

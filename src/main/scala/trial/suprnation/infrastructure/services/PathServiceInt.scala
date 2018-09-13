@@ -1,34 +1,21 @@
 package trial.suprnation.infrastructure.services
 
-import trial.suprnation.domain.model.{Path, Triangle}
+import trial.suprnation.domain.model.Path
 import trial.suprnation.domain.services.PathService
 
 object PathServiceInt extends PathService {
 
   override def calculatePath(triangleList: List[List[Int]]): Path = {
 
-    def makeTriangle(lists: List[List[Int]]): List[Triangle] = {
-      lists match  {
-        case Nil => Nil
-        case x :: Nil => x.map(x => Triangle(x, None, None))
-        case x :: y => (x zip makeTriangle(y).sliding(2).toList).map(x => Triangle(x._1, Some(x._2.head), Some(x._2.last)))
+    def calculateMinPath(tree: List[List[Int]]): List[Path] = {
+      tree match {
+        case Nil => List.empty
+        case x :: Nil => x.sliding(2).map(node => node.min).map(node => Path(node, List(node))).toList
+        case x :: y => (x zip calculateMinPath(y)).map(pair => Path(pair._1 + pair._2.total, pair._1 :: pair._2.path)).
+          sliding(2).map(pair => if(pair.head.total <= pair.last.total) pair.head else pair.last).toList
       }
     }
 
-    val triangle = makeTriangle(triangleList).head
-
-    def calculateMinimumPath(triangle: Option[Triangle]): Path = {
-      triangle match {
-        case None =>
-          Path(0, List.empty)
-        case Some(node) =>
-          val leftPath = calculateMinimumPath(node.left)
-          val rightPath = calculateMinimumPath(node.right)
-          val selectedPath = if (leftPath.total <= rightPath.total) leftPath else rightPath
-          Path(selectedPath.total + node.value, node.value :: selectedPath.path)
-      }
-    }
-
-    calculateMinimumPath(Some(triangle))
+    calculateMinPath(triangleList).head
   }
 }
