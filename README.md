@@ -2,6 +2,20 @@
 
 This project has been created by Fernando de Los Ríos in order to give a solution to the suprnation technical challenge. This solution has been performed using Scala as programming language an sbt as build tool.
 
+## Repository structure
+
+In this repository you can find the final solution merged in master branch, and also you can find two branches with the work performed in this challenge.
+
+In the fancyWay branch I tried to solve the challenge using a structure with options parameter and tail recursion, but the solution have performance and memory issues. I leave this branch in the repository only for showing the previous job before to reach a acceptable solution.
+
+In the listWay branch, you can find the same solution that I merged to master. This solution take advantage of arithmetical properties to work directly over the lists and avoid the performance issues. This solution meet the requested load requirement and can be work with more than 500 rows (load tests has been included) 
+
+## Solution design
+
+If you look the packaging of this project, you can note that I segregate the domain (model an operation definitions) and infrastructure (implementation). This way to manage the packages in the project follow the principles of hexagonal architecture, an advanced way of n-layer design paradigm used in domain driven design.
+
+The main advantage of this architecture is maintain the domain isolated and only change implementations and api's packages. Maybe in a small project like this it's hard to show the advantages but if you compare the different branches you can find that the package domain don't need to change when implementations changes and this can be useful in more complex domains to maintain a clean code.
+
 ## Getting Started
 
 ### Prerequisites
